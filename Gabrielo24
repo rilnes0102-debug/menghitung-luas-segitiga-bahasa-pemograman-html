@@ -1,0 +1,150 @@
+import java.util.Scanner;
+import java.text.DecimalFormat;
+
+/**
+ * Program untuk menghitung luas persegi panjang dan segitiga
+ * @author Assistant
+ */
+public class KalkulatorLuas {
+    
+    // Format untuk menampilkan angka desimal
+    private static final DecimalFormat df = new DecimalFormat("#.###");
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int pilihan;
+        
+        System.out.println("==========================================");
+        System.out.println("     PROGRAM KALKULATOR LUAS BANGUN      ");
+        System.out.println("==========================================");
+        
+        do {
+            // Tampilkan menu
+            System.out.println("\n---------- MENU UTAMA ----------");
+            System.out.println("1. Hitung Luas Persegi Panjang");
+            System.out.println("2. Hitung Luas Segitiga");
+            System.out.println("3. Keluar");
+            System.out.println("--------------------------------");
+            System.out.print("Masukkan pilihan Anda (1/2/3): ");
+            
+            // Validasi input menu
+            while (!scanner.hasNextInt()) {
+                System.out.print("Input tidak valid! Masukkan angka 1, 2, atau 3: ");
+                scanner.next();
+            }
+            pilihan = scanner.nextInt();
+            
+            switch (pilihan) {
+                case 1:
+                    hitungLuasPersegiPanjang(scanner);
+                    break;
+                case 2:
+                    hitungLuasSegitiga(scanner);
+                    break;
+                case 3:
+                    System.out.println("\nTerima kasih telah menggunakan program ini!");
+                    System.out.println("Sampai jumpa kembali ^_^");
+                    break;
+                default:
+                    System.out.println("\n[ERROR] Pilihan tidak tersedia! Silakan coba lagi.");
+                    break;
+            }
+            
+        } while (pilihan != 3);
+        
+        scanner.close();
+    }
+    
+    /**
+     * Method untuk menghitung luas persegi panjang
+     * @param scanner objek Scanner untuk menerima input
+     */
+    public static void hitungLuasPersegiPanjang(Scanner scanner) {
+        System.out.println("\n==========================================");
+        System.out.println("        LUAS PERSEGI PANJANG            ");
+        System.out.println("==========================================");
+        System.out.println("Rumus: Luas = panjang × lebar");
+        System.out.println("------------------------------------------");
+        
+        // Input panjang
+        double panjang = inputAngka(scanner, "Masukkan nilai panjang: ");
+        
+        // Input lebar
+        double lebar = inputAngka(scanner, "Masukkan nilai lebar: ");
+        
+        // Hitung luas
+        double luas = panjang * lebar;
+        
+        // Tampilkan hasil
+        System.out.println("\n---------- HASIL PERHITUNGAN ----------");
+        System.out.println("Panjang (p) = " + df.format(panjang) + " satuan");
+        System.out.println("Lebar (l)   = " + df.format(lebar) + " satuan");
+        System.out.println("----------------------------------------");
+        System.out.println("LUAS PERSEGI PANJANG = " + df.format(luas) + " satuan persegi");
+        System.out.println("==========================================");
+        
+        // Validasi khusus jika ada sisi yang bernilai 0
+        if (panjang == 0 || lebar == 0) {
+            System.out.println("\n⚠️  Catatan: Salah satu sisi bernilai 0, maka luasnya adalah 0.");
+        }
+    }
+    
+    /**
+     * Method untuk menghitung luas segitiga
+     * @param scanner objek Scanner untuk menerima input
+     */
+    public static void hitungLuasSegitiga(Scanner scanner) {
+        System.out.println("\n==========================================");
+        System.out.println("           LUAS SEGITIGA                 ");
+        System.out.println("==========================================");
+        System.out.println("Rumus: Luas = ½ × alas × tinggi");
+        System.out.println("------------------------------------------");
+        
+        // Input alas
+        double alas = inputAngka(scanner, "Masukkan nilai alas: ");
+        
+        // Input tinggi
+        double tinggi = inputAngka(scanner, "Masukkan nilai tinggi: ");
+        
+        // Hitung luas (1/2 * alas * tinggi)
+        double luas = 0.5 * alas * tinggi;
+        
+        // Tampilkan hasil
+        System.out.println("\n---------- HASIL PERHITUNGAN ----------");
+        System.out.println("Alas (a)   = " + df.format(alas) + " satuan");
+        System.out.println("Tinggi (t) = " + df.format(tinggi) + " satuan");
+        System.out.println("----------------------------------------");
+        System.out.println("LUAS SEGITIGA = " + df.format(luas) + " satuan persegi");
+        System.out.println("==========================================");
+        
+        // Validasi khusus
+        if (alas == 0 || tinggi == 0) {
+            System.out.println("\n⚠️  Catatan: Alas atau tinggi bernilai 0, maka luasnya adalah 0.");
+        }
+    }
+    
+    /**
+     * Method helper untuk memvalidasi input angka (positif atau nol)
+     * @param scanner objek Scanner
+     * @param prompt pesan yang ditampilkan ke user
+     * @return nilai double yang sudah divalidasi
+     */
+    public static double inputAngka(Scanner scanner, String prompt) {
+        double nilai;
+        while (true) {
+            System.out.print(prompt);
+            if (scanner.hasNextDouble()) {
+                nilai = scanner.nextDouble();
+                if (nilai >= 0) {
+                    break;
+                } else {
+                    System.out.println("[ERROR] Nilai tidak boleh negatif! Silakan masukkan angka ≥ 0.");
+                }
+            } else {
+                System.out.println("[ERROR] Input harus berupa angka! Silakan coba lagi.");
+                scanner.next(); // membersihkan input yang salah
+            }
+        }
+        return nilai;
+    }
+}
